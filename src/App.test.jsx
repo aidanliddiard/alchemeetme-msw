@@ -34,10 +34,6 @@ beforeAll(() => server.listen())
 // 🚨 Close server when complete
 afterAll(() => server.close())
 
-afterEach(() => {
-  server.resetHandlers()
-})
-
 test('Should render the header', async () => {
   render(<App />)
   const banner = screen.getByRole('banner')
@@ -64,12 +60,17 @@ test('Should render the header with Sasuke 🌬️🔥', async () => {
   }
 
   // 🚨 Use the server to change the response for this test
+  server.use(
+    rest.get('https://uzgiamkrbapxufnwdrja.supabase.co/rest/v1/users', (req, res, ctx) =>
+      res(ctx.json([sasuke]))
+    )
+  )
 
   render(<App />)
 
   const profileName = await screen.findByText(sasuke.name)
 
-  screen.debug()
+  // screen.debug()
 
   expect(profileName).toBeInTheDocument()
 })
