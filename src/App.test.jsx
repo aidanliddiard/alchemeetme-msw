@@ -70,7 +70,5 @@ test('Should render the header with Sasuke 🌬️🔥', async () => {
 
   const profileName = await screen.findByText(sasuke.name)
 
-  // screen.debug()
-
   expect(profileName).toBeInTheDocument()
 })
